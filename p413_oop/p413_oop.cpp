@@ -1,86 +1,83 @@
 ﻿#include <iostream>
-#include <vector>
 
 using namespace std;
 
 class Stack {
 private:
-    vector<int> stack;
-public:
-    Stack() {}
+    int* arr;
+    int capacity;
+    int topIndex;
 
-    Stack(vector<int> s) : stack(s) {}
+public:
+    Stack(int size) {
+        capacity = size;
+        arr = new int[capacity];
+        topIndex = -1;
+    }
 
     void push(int value) {
-        if (isFull() == 0) {
-            stack.push_back(value);
+        if (isFull()) {
+            cout << "Stack is full!" << endl;
         }
         else {
-            cout << "Stack is full!";
+            topIndex++;
+            arr[topIndex] = value;
         }
     }
 
     int pop() {
-        if (isEmpty() == 0) {
-            int value = stack.back();
-            stack.pop_back();
-            return value;
+        if (isEmpty()) {
+            cout << "Stack is empty!" << endl;
+            return -1;
         }
         else {
-            cout << "Stack is empty!";
-            return -1;
+            int value = arr[topIndex];
+            topIndex--;
+            return value;
         }
     }
 
     int top() {
-        if (isEmpty() == 0) {
-            return stack.back();
+        if (isEmpty()) {
+            cout << "Stack is empty!" << endl;
+            return -1;
         }
         else {
-            cout << "Stack is empty!";
-            return -1;
+            return arr[topIndex];
         }
     }
 
     bool isEmpty() {
-        return stack.empty();
+        return topIndex == -1;
     }
 
     bool isFull() {
-        if (stack.capacity() == size()) {
-            return 1;
-        }
-        else {
-            return 0;
-        }
+        return topIndex == capacity - 1;
     }
 
     int size() {
-        return stack.max_size();
+        return topIndex + 1;
     }
 };
 
 int main()
 {
-    Stack s;
+    Stack s(5);
 
-    if (s.isEmpty()) {
-        cout << "Stack is empty." << endl;
-    }
-    else {
-        cout << "Stack is not empty." << endl;
-    }
-
+    s.push(1);
+    s.push(2);
+    s.push(3);
+    s.push(4);
     s.push(5);
-    s.push(10);
-    s.push(15);
+
+    s.push(6);
+
+    s.pop();
+    s.pop();
+    s.pop();
 
     cout << "Top element: " << s.top() << endl;
-
-    int removed = s.pop();
-    cout << "Removed: " << removed << endl;
-
-    cout << "Top element: " << s.top() << endl;
+    cout << "Size: " << s.size() << endl;
 
     s.pop();
     s.pop();
